@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Desk</string>
+    <string name="phone">帐号/手机号</string>
+    <string name="findAccount">找回帐号</string>
+    <string name="findPwd">忘记密码</string>
+    <string name="passWord">密码</string>
+    <string name="loginBtn">登录</string>
+    <string name="registerBtn">注册</string>
+    <string name="share">是否同步分享到微信朋友圈</string>
+</resources>

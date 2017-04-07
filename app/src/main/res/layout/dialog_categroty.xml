@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:layout_gravity="bottom">
+    <ImageView
+        android:id="@+id/btn_cloce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/close"/>
+    <TextView
+        android:id="@+id/static_text"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_cloce"
+        android:text="您选择的分类："/>
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:id="@+id/recycler_top"
+        android:scrollbars="none"
+        android:background="@color/white"
+        android:layout_below="@+id/static_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/content_view"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/recycler_top">
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/recycler_left"
+            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"/>
+        <View
+            android:layout_width="0.5dp"
+            android:background="@color/divide"
+            android:layout_height="wrap_content"/>
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/recycler_right"
+            android:scrollbars="none"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>
