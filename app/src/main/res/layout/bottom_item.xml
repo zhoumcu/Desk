@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/purchase_bottom"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:paddingLeft="@dimen/common_padding5"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+        <CheckBox
+            android:id="@+id/ck_check_all"
+            android:background="@drawable/check_checked"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/common_padding5"
+            android:layout_marginRight="@dimen/common_padding5"
+            android:button="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="全选"
+            android:gravity="center"
+            style="@style/tv_black_15"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="合计:"
+                android:gravity="center"
+                android:textSize="@dimen/tv_common_size11"/>
+
+            <TextView
+                android:id="@+id/tv_goods_price_and_carriage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="￥0.0"
+                android:textSize="@dimen/tv_common_size11"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_goods_shoufu_and_carriage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="首付:￥0.0"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/common_padding3"
+                android:textSize="@dimen/tv_common_size11"/>
+
+            <TextView
+                android:id="@+id/tv_goods_monthpay_and_carriage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="首期月供:￥0.0"
+                android:textSize="@dimen/tv_common_size11"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="下架"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/statements_btn"
+            style="@style/tv_black_15"/>
+    </LinearLayout>
+
+</LinearLayout>

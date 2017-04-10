@@ -7,9 +7,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation = "vertical"
+        android:orientation = "horizontal"
         android:layout_height="match_parent">
-
+        <CheckBox
+            android:id="@+id/ck_choose_shopping_cart"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:layout_margin="@dimen/common_padding5"
+            android:background="@drawable/check_checked"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp">

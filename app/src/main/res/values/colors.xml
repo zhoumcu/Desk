@@ -8,4 +8,6 @@
     <color name="divide">#F2F2F2</color>
     <color name="blue">#1286db</color>
     <color name="photopicker_background">#5c5c5c</color>
+    <!--黑色-->
+    <color name="common_black">#595757</color>
 </resources>

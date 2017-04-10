@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,7 +37,9 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.dropDownMenu)
     DropDownMenu mDropDownMenu;
-//    private GirdDropDownAdapter cityAdapter;
+    @Bind(R.id.ck_check_all)
+    CheckBox ckCheckAll;
+    //    private GirdDropDownAdapter cityAdapter;
     private ListDropDownAdapter ageAdapter;
     private ListDropDownAdapter sexAdapter;
     private ConstellationAdapter constellationAdapter;
@@ -53,6 +56,7 @@ public class MainActivity extends BaseActivity {
     private ListDropDownAdapter sizeAdapter;
     private List<Goods> goods = new ArrayList<>();
     private LeftListAdapter leftAdapter;
+    private GoodsAdapter adapter;
 
     @OnClick(R.id.fab)
     public void onClick() {
@@ -73,11 +77,11 @@ public class MainActivity extends BaseActivity {
         EasyRecyclerView recyclerLeftView = (EasyRecyclerView) categrotyView.findViewById(R.id.recycler_left);
         EasyRecyclerView recyclerRightView = (EasyRecyclerView) categrotyView.findViewById(R.id.recycler_right);
         recyclerLeftView.addItemDecoration(new MyDecoration(getContext(), MyDecoration.VERTICAL_LIST));
-        recyclerLeftView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerRightView.setLayoutManager(new GridLayoutManager(getContext(),3));
-        leftAdapter = new LeftListAdapter(getContext(),Arrays.asList(citys));
+        recyclerLeftView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerRightView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        leftAdapter = new LeftListAdapter(getContext(), Arrays.asList(citys));
         recyclerLeftView.setAdapter(leftAdapter);
-        recyclerRightView.setAdapter(new RightListAdapter(getContext(),Arrays.asList(citys)));
+        recyclerRightView.setAdapter(new RightListAdapter(getContext(), Arrays.asList(citys)));
         //init age menu
         final ListView ageView = new ListView(this);
         ageView.setDividerHeight(0);
@@ -167,13 +171,14 @@ public class MainActivity extends BaseActivity {
 
         //init context view
         EasyRecyclerView contentView = new EasyRecyclerView(this);
-        contentView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        contentView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         goods.add(new Goods());
         goods.add(new Goods());
         goods.add(new Goods());
         goods.add(new Goods());
-        contentView.setAdapter(new GoodsAdapter(getContext(),goods));
+        adapter = new GoodsAdapter(getContext(), goods);
+        contentView.setAdapter(adapter);
         //init dropdownview
         mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, contentView);
     }
@@ -192,8 +197,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                //toast("action_search");
-                //startActivityWithData(SearchActivity.class);
+                gt(EditBaseActivity.class);
                 break;
             case android.R.id.home:
                 //toast("home");
@@ -210,6 +214,21 @@ public class MainActivity extends BaseActivity {
             mDropDownMenu.closeMenu();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @OnClick({R.id.ck_check_all, R.id.tv_pay})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ck_check_all:
+                if (ckCheckAll.isChecked()){
+                    adapter.setAll(false);
+                }else {
+                    adapter.setAll(true);
+                }
+                break;
+            case R.id.tv_pay:
+                break;
         }
     }
 }

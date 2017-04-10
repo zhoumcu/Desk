@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +25,10 @@ import cn.zhiao.develop.desk.bean.Goods;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
 
-
     private Context context;
     private LayoutInflater mLayoutInflater;
     private List<Goods> mOrder = new ArrayList<>();
+    private boolean isAll = true;
 
     public GoodsAdapter(Context context, List<Goods> mOrder) {
         this.mOrder = mOrder;
@@ -44,9 +45,16 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        if (!isAll) {
+            holder.ckChooseShoppingCart.setChecked(true);
+        }else {
+            holder.ckChooseShoppingCart.setChecked(false);
+        }
     }
-
+    public void setAll(boolean isAll){
+        this.isAll = isAll;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return mOrder == null ? 0 : mOrder.size();
@@ -62,6 +70,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         TextView tvGoodsInfoShoppingCart;
         @Bind(R.id.tv_remove_goods)
         TextView tvRemoveGoods;
+        @Bind(R.id.ck_choose_shopping_cart)
+        CheckBox ckChooseShoppingCart;
 
         public ViewHolder(View itemView) {
             super(itemView);

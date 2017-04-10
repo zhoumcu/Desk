@@ -70,4 +70,10 @@
         <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
 
+    <style name="tv_black_15">
+        <item name="android:textSize">@dimen/tv_common_size15</item>
+        <item name="android:textColor">@color/common_black</item>
+    </style>
+
+    <dimen name="tv_common_size15">15sp</dimen>
 </resources>

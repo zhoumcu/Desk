@@ -1,7 +1,7 @@
 package cn.zhiao.develop.desk.ui;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +22,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.zhiao.baselib.base.BaseFragment;
-import cn.zhiao.baselib.utils.FileUtil;
-import cn.zhiao.baselib.utils.ImageUtils;
-import cn.zhiao.baselib.utils.PixelUtil;
 import cn.zhiao.develop.desk.R;
 import cn.zhiao.develop.desk.adapter.PhotoGridAdapter;
 import cn.zhiao.develop.desk.bean.Category;
@@ -63,6 +60,18 @@ public class EditTextFragment extends BaseFragment {
     private ArrayList<String> imagePaths = new ArrayList<>();
     private ArrayList<String> mPaths = new ArrayList<>();
     private PhotoGridAdapter adapter;
+    private EditBaseActivity mCallback;
+
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (EditBaseActivity) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -94,9 +103,10 @@ public class EditTextFragment extends BaseFragment {
         // 处理返回照片地址
         for (final String path : paths){
             if(mPaths.size()<=9){
-                Bitmap bm = FileUtil.getInstance().getImage(path, PixelUtil.getWindowWidth(), PixelUtil.getWindowHeight()); //获取限定宽高的bitmap，不限定则容易占用内存过大及OOM
-                ImageUtils.addWatermarkBitmap(bm,"testsfsdf",PixelUtil.getWindowWidth(),PixelUtil.getWindowHeight());
+                //Bitmap bm = FileUtil.getInstance().getImage(path, PixelUtil.getWindowWidth(), PixelUtil.getWindowHeight()); //获取限定宽高的bitmap，不限定则容易占用内存过大及OOM
+                //ImageUtils.addWatermarkBitmap(bm,"testsfsdf",PixelUtil.getWindowWidth(),PixelUtil.getWindowHeight());
                 //mPaths.add(ImageUtils.drawTextToRightTop(this,path,"test",16,R.color.red_color,10,10));
+                mPaths.add(path);
             }
         }
         adapter.addAll(mPaths);
