@@ -77,6 +77,11 @@ public class RightListAdapter extends RecyclerView.Adapter<RightListAdapter.View
         return mOrder == null ? 0 : mOrder.size();
     }
 
+    public void update(List<String> strings) {
+        mOrder = strings;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_main)
         TextView tvMain;

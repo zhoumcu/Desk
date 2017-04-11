@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatCheckedTextView;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.foamtrace.photopicker.ImageCaptureManager;
@@ -22,6 +25,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.zhiao.baselib.base.BaseFragment;
+import cn.zhiao.baselib.utils.FileUtil;
+import cn.zhiao.baselib.utils.ImageUtils;
 import cn.zhiao.develop.desk.R;
 import cn.zhiao.develop.desk.adapter.PhotoGridAdapter;
 import cn.zhiao.develop.desk.bean.Category;
@@ -32,7 +37,7 @@ import cn.zhiao.develop.desk.bean.User;
  * company: xxxx
  * email：1032324589@qq.com
  */
-public class EditTextFragment extends BaseFragment {
+public class EditTextFragment extends BaseFragment implements CategoryDialogFragment.onChooseItem {
     private static final int REQUEST_CAMERA_CODE = 1001;
     private static final int REQUEST_PREVIEW_CODE = 1002;
     @Bind(R.id.ed_title)
@@ -51,6 +56,9 @@ public class EditTextFragment extends BaseFragment {
     AppCompatCheckedTextView tvChoces;
     @Bind(R.id.grid)
     MyGridView grid;
+    @Bind(R.id.share_checkbox)
+    AppCompatCheckBox shareCheckbox;
+
     private boolean isChanged;
     private List<Category> options1Items = new ArrayList<>();
     private String options[] = {"不限", "水桶", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
@@ -61,6 +69,7 @@ public class EditTextFragment extends BaseFragment {
     private ArrayList<String> mPaths = new ArrayList<>();
     private PhotoGridAdapter adapter;
     private EditBaseActivity mCallback;
+    private List<String> chooseData = new ArrayList<>();
 
     @Override
     public void onAttach(Context activity) {
@@ -101,12 +110,9 @@ public class EditTextFragment extends BaseFragment {
 
     private void refreshAdpater(ArrayList<String> paths) {
         // 处理返回照片地址
-        for (final String path : paths){
-            if(mPaths.size()<=9){
-                //Bitmap bm = FileUtil.getInstance().getImage(path, PixelUtil.getWindowWidth(), PixelUtil.getWindowHeight()); //获取限定宽高的bitmap，不限定则容易占用内存过大及OOM
-                //ImageUtils.addWatermarkBitmap(bm,"testsfsdf",PixelUtil.getWindowWidth(),PixelUtil.getWindowHeight());
-                //mPaths.add(ImageUtils.drawTextToRightTop(this,path,"test",16,R.color.red_color,10,10));
-                mPaths.add(path);
+        for (final String path : paths) {
+            if (mPaths.size() <= 9) {
+                mPaths.add(ImageUtils.createAndSaveWatermark(FileUtil.getInstance().getLocalBitmap(path), "sdjfksdjf"));
             }
         }
         adapter.addAll(mPaths);
@@ -130,8 +136,9 @@ public class EditTextFragment extends BaseFragment {
 
             @Override
             public void setOnPreviewclickListener(int position) {
-                Intent intent = new Intent(getActivity(),PhotoPreviewActivity.class);
-                intent.putExtra(PhotoPreviewActivity.EXTRA_PHOTOS,mPaths);
+                Intent intent = new Intent(getActivity(), PhotoPreviewActivity.class);
+                intent.putExtra(PhotoPreviewActivity.EXTRA_PHOTOS, mPaths);
+                intent.putExtra(PhotoPreviewActivity.EXTRA_CURRENT_ITEM, position);
                 startActivity(intent);
             }
 
@@ -141,6 +148,7 @@ public class EditTextFragment extends BaseFragment {
                 adapter.upate(mPaths);
             }
         });
+        edCost.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -153,50 +161,54 @@ public class EditTextFragment extends BaseFragment {
         return R.layout.aty_edittext;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                shareMultipleImage();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     @OnClick({R.id.tv_choces, R.id.share_checkbox})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_choces:
-                //条件选择器
-//                OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
-//                    @Override
-//                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
-//                        //返回的分别是三个级别的选中位置
-////                        String tx = options1Items.get(options1).getCategory();
-////                        tvChoces.setText(tx);
-////                        categoryId = options1Items.get(options1).getCategoryId();
-//                    }
-//                }).build();
-//                pvOptions.setPicker(Arrays.asList(options));
-//                pvOptions.show();
-                CategoryDialogFragment.showDialog((AppCompatActivity) getActivity());
+                CategoryDialogFragment fragment = CategoryDialogFragment.showDialog((AppCompatActivity) getActivity(), chooseData);
+                fragment.setOnChooseItem(this);
                 break;
-//            case R.id.img_add:
-//                PhotoPickerIntent intent = new PhotoPickerIntent(this);
-//                intent.setSelectModel(SelectModel.MULTI);
-//                intent.setShowCarema(true); // 是否显示拍照， 默认false
-//                intent.setMaxTotal(9); // 最多选择照片数量，默认为9
-//                intent.setSelectedPaths(imagePaths); // 已选中的照片地址， 用于回显选中状态
-//                // intent.setImageConfig(config);
-//                startActivityForResult(intent, REQUEST_CAMERA_CODE);
-//                break;
         }
     }
+
+    public void saveActicle() {
+        if (TextUtils.isEmpty(edTitle.getText())) {
+            showToast("标题不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(edWeight.getText())) {
+            showToast("重量不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(edSize.getText())) {
+            showToast("大小不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(edCost.getText())) {
+            showToast("成本不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(edContact.getText())) {
+            showToast("联系方式不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(tvChoces.getText())) {
+            showToast("类型不能为空！");
+            return;
+        }
+        if (chooseData.size() == 0) {
+            showToast("图片不能为空！");
+            return;
+        }
+        if(shareCheckbox.isChecked()){
+            shareMultipleImage();
+        }
+    }
+
     //分享多张图片
     public void shareMultipleImage() {
         ArrayList<Uri> uriList = new ArrayList<>();
-        for (String path :mPaths){
+        for (String path : mPaths) {
             uriList.add(Uri.fromFile(new File(path)));
         }
         Intent shareIntent = new Intent();
@@ -205,4 +217,29 @@ public class EditTextFragment extends BaseFragment {
         shareIntent.setType("image/*");
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
+
+    @Override
+    public void onItem(List<String> listData) {
+        tvChoces.setText("");
+        chooseData = listData;
+        for (String str : listData) {
+            tvChoces.append(str + ",");
+        }
+    }
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            edDescriber.append("\n"+s.toString());
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

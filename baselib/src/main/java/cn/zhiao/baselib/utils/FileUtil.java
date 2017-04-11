@@ -254,6 +254,12 @@ public class FileUtil {
             }
         }
         return true;
+    }
 
+    public String saveBitmap(Bitmap bmp,String name){
+        if(saveMyBitmap(bmp,name)){
+            return getImageFile(name);
+        }
+        return null;
     }
 }

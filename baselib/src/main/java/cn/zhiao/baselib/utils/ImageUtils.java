@@ -45,6 +45,42 @@ public class ImageUtils {
 
         ImageLoader.getInstance().displayImage(url, imageView, options);
     }
+    // 为图片target添加水印文字
+    // Bitmap target：被添加水印的图片
+    // String mark：水印文章
+    public static Bitmap createWatermark(Bitmap target, String mark) {
+        int w = target.getWidth();
+        int h = target.getHeight();
+        Paint pFont = new Paint();
+        Rect rect = new Rect();
+        //返回包围整个字符串的最小的一个Rect区域
+        pFont.getTextBounds(mark, 0, mark.length(), rect);
+        int height = rect.height();
+        int width = rect.width();
+
+        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmp);
+        Paint p = new Paint();
+        // 水印的颜色
+        p.setColor(Color.RED);
+        // 水印的字体大小
+        p.setTextSize(20);
+        p.setAntiAlias(true);// 去锯齿
+        canvas.drawBitmap(target, 0, 0, p);
+        // 在左边的中间位置开始添加水印
+        canvas.drawText(mark, w-width*2, 20, p);
+        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.restore();
+
+        FileUtil.getInstance().saveMyBitmap(bmp,"");
+        return bmp;
+    }
+    // 为图片target添加水印文字
+    // Bitmap target：被添加水印的图片
+    // String mark：水印文章
+    public static String createAndSaveWatermark(Bitmap target, String mark) {
+        return FileUtil.getInstance().saveBitmap(createWatermark(target,mark),"Desk"+System.currentTimeMillis());
+    }
     public static boolean addWatermarkBitmap(Bitmap bitmap, String str, int w, int h) {
         int destWidth = w;   //此处的bitmap已经限定好宽高
         int destHeight = h;

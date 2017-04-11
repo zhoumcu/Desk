@@ -16,44 +16,69 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_title"
-                android:hint="输入文章标题"
-                android:padding="20dp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_title"
+                    android:hint="输入文章标题"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_weight"
-                android:hint="请输入重量"
-                android:padding="20dp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_size"
-                android:hint="请输入大小"
-                android:padding="20dp"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_weight"
+                    android:hint="请输入重量"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_cost"
-                android:hint="请输入成本"
-                android:padding="20dp"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_size"
+                    android:hint="请输入大小"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_contact"
-                android:hint="请输入联系方式"
-                android:padding="20dp"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_cost"
+                    android:hint="请输入成本"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ed_describer"
-                android:hint="输入文章简介"
-                android:padding="20dp"
-                android:gravity="top"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_contact"
+                    android:hint="请输入联系方式"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ed_describer"
+                    android:hint="输入文章简介"
+                    android:padding="20dp"
+                    android:gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </android.support.design.widget.TextInputLayout>
+
             <android.support.v7.widget.AppCompatCheckedTextView
                 android:id="@+id/tv_choces"
                 android:text="请选择类型"

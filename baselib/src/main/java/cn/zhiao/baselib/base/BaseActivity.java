@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
@@ -13,10 +15,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import cn.zhiao.baselib.custom.CustomConfirmDialog;
@@ -44,6 +49,7 @@ public  abstract class BaseActivity extends AppCompatActivity implements IBaseVi
         super.onCreate(savedInstanceState);
         // 隐藏标题栏
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //switchLanguage("en");
         setContentView(getLayoutRes());
         // 初始化View注入
         ButterKnife.bind(this);
@@ -302,8 +308,8 @@ public  abstract class BaseActivity extends AppCompatActivity implements IBaseVi
      */
     public void gt(Bundle bundle,Class cl){
         Intent intent = new Intent(this,cl);
-        if(bundle!=null)
-            intent.putExtras(bundle);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if(bundle!=null) intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -315,5 +321,15 @@ public  abstract class BaseActivity extends AppCompatActivity implements IBaseVi
         if(toolbar!=null){
             this.toolbar = toolbar;
         }
+    }
+
+    public void switchLanguage(Locale locale, Class cl) {
+        Configuration config = getResources().getConfiguration();// 获得设置对象
+        Resources resources = getResources();// 获得res资源对象
+        DisplayMetrics dm = resources.getDisplayMetrics();// 获得屏幕参数：主要是分辨率，像素等。
+        config.locale = locale; // 简体中文
+        resources.updateConfiguration(config, dm);
+        finish();
+        gt(cl);
     }
 }

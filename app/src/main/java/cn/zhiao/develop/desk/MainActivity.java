@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity {
     private List<Goods> goods = new ArrayList<>();
     private LeftListAdapter leftAdapter;
     private GoodsAdapter adapter;
+    private RightListAdapter rightAdapter;
 
     @OnClick(R.id.fab)
     public void onClick() {
@@ -81,7 +82,8 @@ public class MainActivity extends BaseActivity {
         recyclerRightView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         leftAdapter = new LeftListAdapter(getContext(), Arrays.asList(citys));
         recyclerLeftView.setAdapter(leftAdapter);
-        recyclerRightView.setAdapter(new RightListAdapter(getContext(), Arrays.asList(citys)));
+        rightAdapter = new RightListAdapter(getContext(), Arrays.asList(citys));
+        recyclerRightView.setAdapter(rightAdapter);
         //init age menu
         final ListView ageView = new ListView(this);
         ageView.setDividerHeight(0);
@@ -132,6 +134,14 @@ public class MainActivity extends BaseActivity {
             @Override
             public void setOnItemClickListener(int position) {
                 leftAdapter.setCheckItem(position);
+                rightAdapter.update(Arrays.asList(citys));
+            }
+        });
+
+        rightAdapter.setOnItemClickListener(new RecyclerListener() {
+            @Override
+            public void setOnItemClickListener(int position) {
+                rightAdapter.setCheckItem(position);
                 mDropDownMenu.setTabText(position == 0 ? headers[0] : citys[position]);
                 mDropDownMenu.closeMenu();
             }
@@ -198,6 +208,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_search:
                 gt(EditBaseActivity.class);
+                //switchLanguage(Locale.SIMPLIFIED_CHINESE,MainActivity.class);
                 break;
             case android.R.id.home:
                 //toast("home");

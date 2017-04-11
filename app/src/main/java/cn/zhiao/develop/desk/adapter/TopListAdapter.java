@@ -96,6 +96,9 @@ public class TopListAdapter extends RecyclerView.Adapter<TopListAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public List<String> getListData(){
+        return mOrder;
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_main)
         TextView tvMain;

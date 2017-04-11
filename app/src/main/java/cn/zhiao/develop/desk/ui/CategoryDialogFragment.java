@@ -3,6 +3,7 @@ package cn.zhiao.develop.desk.ui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +22,9 @@ import android.widget.TextView;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,15 +60,18 @@ public class CategoryDialogFragment extends DialogFragment {
     private LeftListAdapter leftAdapter;
     private RightListAdapter rightAdapter;
     private TopListAdapter topAdapter;
+    private onChooseItem listener;
+    private ArrayList<String> chooseData = new ArrayList<>();
 
-    private static CategoryDialogFragment getInstance() {
+    private static CategoryDialogFragment getInstance(List<String> chooseData) {
         CategoryDialogFragment mCategoryDialogFragment = new CategoryDialogFragment();
         Bundle bundle = new Bundle();
+        bundle.putStringArrayList("data", (ArrayList<String>) chooseData);
         mCategoryDialogFragment.setArguments(bundle);
         return mCategoryDialogFragment;
     }
 
-    public static void showDialog(AppCompatActivity activity) {
+    public static CategoryDialogFragment showDialog(AppCompatActivity activity, List<String> chooseData) {
         FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
         Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(MY_TAG);
         if (fragment != null) {
@@ -73,8 +79,15 @@ public class CategoryDialogFragment extends DialogFragment {
         }
         fragmentTransaction.addToBackStack(null);
         // Create and show the dialog.
-        CategoryDialogFragment categoryDialogFragment = CategoryDialogFragment.getInstance();
+        CategoryDialogFragment categoryDialogFragment = CategoryDialogFragment.getInstance(chooseData);
         categoryDialogFragment.show(fragmentTransaction, MY_TAG);
+        return categoryDialogFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        chooseData = getArguments().getStringArrayList("data");
     }
 
     @Override
@@ -93,6 +106,7 @@ public class CategoryDialogFragment extends DialogFragment {
             @Override
             public void setOnItemClickListener(int position) {
                 leftAdapter.setCheckItem(position);
+                rightAdapter.update(Arrays.asList(citys));
             }
         });
         rightAdapter.setOnItemClickListener(new RecyclerListener() {
@@ -123,7 +137,7 @@ public class CategoryDialogFragment extends DialogFragment {
         recyclerLeft.setAdapter(leftAdapter);
         rightAdapter = new RightListAdapter(getContext(), Arrays.asList(citys));
         recyclerRight.setAdapter(rightAdapter);
-        topAdapter = new TopListAdapter(getContext());
+        topAdapter = new TopListAdapter(getContext(),chooseData);
         recyclerTop.setAdapter(topAdapter);
     }
 
@@ -153,9 +167,25 @@ public class CategoryDialogFragment extends DialogFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.btn_cloce)
-    public void onClick() {
-        if(!isHidden())
-            dismiss();
+
+    @OnClick({R.id.btn_cloce, R.id.submit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_cloce:
+                if (!isHidden())
+                    dismiss();
+                break;
+            case R.id.submit:
+                listener.onItem(topAdapter.getListData());
+                if (!isHidden())
+                    dismiss();
+                break;
+        }
+    }
+    public void setOnChooseItem(onChooseItem listener){
+        this.listener = listener;
+    }
+    public interface onChooseItem{
+        void onItem(List<String> listData);
     }
 }

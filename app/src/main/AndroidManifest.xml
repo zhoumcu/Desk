@@ -30,7 +30,8 @@
 
         <activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
             android:theme="@style/PhotoPickerTheme"/>
-        <activity android:name=".ui.EditBaseActivity"/>
+        <activity android:name=".ui.EditBaseActivity"
+            android:configChanges="locale|layoutDirection"/>
     </application>
 
 </manifest>

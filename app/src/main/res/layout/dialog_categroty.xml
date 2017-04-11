@@ -13,19 +13,34 @@
         android:src="@mipmap/close"/>
     <TextView
         android:id="@+id/static_text"
+        android:textColor="@color/black"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_cloce"
         android:text="您选择的分类："/>
-
-    <com.jude.easyrecyclerview.EasyRecyclerView
-        android:id="@+id/recycler_top"
-        android:scrollbars="none"
+    <LinearLayout
+        android:id="@+id/ll_top"
         android:background="@color/white"
         android:layout_below="@+id/static_text"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/recycler_top"
+            android:scrollbars="none"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:layout_below="@+id/static_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="确定"
+            android:id="@+id/submit"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:background="@color/white"
@@ -33,7 +48,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_below="@+id/recycler_top">
+        android:layout_below="@+id/ll_top">
         <com.jude.easyrecyclerview.EasyRecyclerView
             android:id="@+id/recycler_left"
             android:layout_weight="0.5"

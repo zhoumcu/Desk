@@ -13,7 +13,7 @@ import cn.zhiao.develop.desk.R;
  * email：1032324589@qq.com
  */
 
-public class EditBaseActivity extends BaseActivity{
+public class EditBaseActivity extends BaseActivity {
 
     private EditTextFragment editFragment;
 
@@ -27,7 +27,7 @@ public class EditBaseActivity extends BaseActivity{
     @Override
     public void initView() {
         editFragment = new EditTextFragment();
-        addFragment(R.id.containers,editFragment);
+        addFragment(R.id.containers, editFragment);
     }
 
     @Override
@@ -45,6 +45,7 @@ public class EditBaseActivity extends BaseActivity{
         getMenuInflater().inflate(R.menu.info_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
